@@ -1,20 +1,29 @@
-const { Given, When, Then } = require('@wdio/cucumber-framework');
-const LoginPage = require('../pageobjects/login.page');
+import { Given, When, Then } from '@wdio/cucumber-framework';
+import LoginPage from '../pageobjects/login.page';
 
-Given('I launch the app', async () => {
-    await driver.launchApp();
-    await LoginPage.waitForLoginScreen(); // Custom wait for the login screen
+
+// Step: Given the user is on the login screen
+Given('the user is on the login screen', async function () {
+    await LoginPage.waitForLoginScreen();
 });
 
-When('I enter {string} and {string}', async (username, password) => {
+// Step: When the user enters "<username>" and "<password>"
+When('the user enters {string} and {string}', async function (username, password) {
     await LoginPage.login(username, password);
 });
 
-Then('I should see the {string}', async (expectedResult) => {
-    if (expectedResult === "Home screen") {
-        // Add assertion for home screen
+// Step: And clicks the login button
+When('clicks the login button', async function () {
+    await LoginPage.loginButton.click(); // Assuming this action is needed if you separate the step
+});
+
+// Step: Then the login should be "<expectedOutcome>"
+Then('the login should be {string}', async function (expectedOutcome) {
+    if (expectedOutcome === 'failure') {
+        const errorMessage = await LoginPage.getErrorMessage();
+        expect(errorMessage).toBeDisplayed(); // Assuming you check for error message when login fails
     } else {
-        const actualMessage = await LoginPage.getErrorMessage();
-        expect(actualMessage).toContain(expectedResult);
+        const errorMessage = await LoginPage.getErrorMessage();
+        expect(errorMessage).not.toBeDisplayed(); // Assuming you check that there's no error message on successful login
     }
 });

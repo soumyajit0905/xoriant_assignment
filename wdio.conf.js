@@ -61,7 +61,8 @@ export const config = {
         'appium:automationName': 'UiAutomator2',
         'appium:app': path.join(process.cwd(), 'app/android/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk'),
         'appium:noReset': true, // Do not reset app state before each session
-        'appium:newCommandTimeout': 240 // Increase command timeout
+        'appium:newCommandTimeout': 240, // Increase command timeout
+        'appium:uiautomator2ServerLaunchTimeout': 60000 // Increase to 60 seconds
 
     }],
 
@@ -146,7 +147,7 @@ export const config = {
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
-        require: ['./step_definitions/*.js', './support/*.js'],
+        require: ['./step_definitions/*.js'],
         backtrace: false,
         requireModule: [],
         dryRun: false,

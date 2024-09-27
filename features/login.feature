@@ -7,8 +7,8 @@ Scenario Outline: User tries to login
   Then the login should be "<expectedOutcome>"
 
 Examples:
-  | username  | password  | expectedOutcome |
-  | user1     | pass1     | success         |
-  | user2     | wrongpass | failure         |
-  |           | pass1     | failure         |
-  | user1     |           | failure         |
+  | username       | password       | expectedOutcome |
+  | standard_user  | secret_sauce   | success         |
+  | user2          | wrongpass      | failure         |
+  |                | pass1          | failure         |
+  | standard_user  |                | failure         |

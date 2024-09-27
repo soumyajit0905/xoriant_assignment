@@ -14,7 +14,6 @@ class LoginPage {
     async login(username, password) {
         await this.usernameInput.setValue(username);
         await this.passwordInput.setValue(password);
-        await this.loginButton.click();
     }
 
     async getErrorMessage() {
@@ -22,4 +21,4 @@ class LoginPage {
     }
 }
 
-module.exports = new LoginPage();
+export default new LoginPage();
