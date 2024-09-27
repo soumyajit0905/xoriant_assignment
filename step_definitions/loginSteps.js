@@ -3,27 +3,35 @@ import LoginPage from '../pageobjects/login.page';
 
 
 // Step: Given the user is on the login screen
-Given('the user is on the login screen', async function () {
+Given('the user is on the login screen', async () => {
+    const appId = 'com.swaglabsmobileapp'; // replace with your app's package name
+    await driver.execute('mobile: activateApp', { appId });
     await LoginPage.waitForLoginScreen();
 });
 
 // Step: When the user enters "<username>" and "<password>"
-When('the user enters {string} and {string}', async function (username, password) {
+When('the user enters {string} and {string}', async (username, password) => {
     await LoginPage.login(username, password);
 });
 
 // Step: And clicks the login button
-When('clicks the login button', async function () {
-    await LoginPage.loginButton.click(); // Assuming this action is needed if you separate the step
+When('clicks the login button', async () => {
+    await LoginPage.clickLoginButton();
 });
 
 // Step: Then the login should be "<expectedOutcome>"
-Then('the login should be {string}', async function (expectedOutcome) {
-    if (expectedOutcome === 'failure') {
-        const errorMessage = await LoginPage.getErrorMessage();
-        expect(errorMessage).toBeDisplayed(); // Assuming you check for error message when login fails
+Then('the login should be {string}', async (expectedOutcome) => {
+    const isLoginSuccessful = expectedOutcome === 'success';
+    if (isLoginSuccessful) {
+        // Check if the menu breadcrumb is displayed
+        expect(await LoginPage.isMenuBreadcrumbDisplayed()).toBe(true);
     } else {
-        const errorMessage = await LoginPage.getErrorMessage();
-        expect(errorMessage).not.toBeDisplayed(); // Assuming you check that there's no error message on successful login
+        // Check if the error message is displayed
+        expect(await LoginPage.isErrorMessageDisplayed()).toBe(true);
     }
+});
+
+// Step: And the user should see the error message "<errorMessage>"
+Then('the user should see the error message {string}', async (errorMessage) => {
+    expect(await LoginPage.getErrorMessage()).toEqual(errorMessage);
 });
