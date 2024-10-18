@@ -8,8 +8,9 @@ Scenario Outline: User tries to login
   And the user should see the error message "<errorMessage>"
 
 Examples:
-  | username       | password       | expectedOutcome | errorMessage                                                |
-  | standard_user  | secret_sauce   | success         |                                                             |
-  | user2          | wrongpass      | failure         | Username and password do not match any user in this service.|
-  |                | pass1          | failure         | Username is required                                        |
-  | standard_user  |                | failure         | Password is required                                        |
+  | username           | password       | expectedOutcome | errorMessage                                                |
+  | standard_user      | secret_sauce   | success         |                                                             |
+  | 1@2.com            | f-o-o          | failure         | Username and password do not match any user in this service.|
+  |                    |                | failure         | Username is required                                        |
+  | bob@example.com    |                | failure         | Password is required                                        |
+  | alice@example.com  | 10203040       | failure         | Password is required                                        |
