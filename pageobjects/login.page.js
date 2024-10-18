@@ -14,11 +14,11 @@ class LoginPage {
     }
 
     get menuBreadcrumb() { 
-        return $('//android.view.ViewGroup[@content-desc="test-Menu"]'); 
+        return $('~test-Menu'); 
     }
 
     get logoutButton() { 
-        return $('//android.view.ViewGroup[@content-desc="test-LOGOUT"]'); 
+        return $('~test-LOGOUT'); 
     }
 
     get productsText() { 
@@ -39,6 +39,13 @@ class LoginPage {
             timeoutMsg: 'Login screen did not load in time'
         });
     }
+
+    async waitForMenusDisplayed(){
+        return await browser.waitUntil(async () => await this.menuBreadcrumb.isDisplayed(), {
+            timeout: 60000,
+            timeoutMsg: 'Breadcrumb Menu icon did not load in time'
+        })
+    };
 
     /**
      * Perform login action with provided username and password
@@ -86,14 +93,6 @@ class LoginPage {
      */
     async getErrorMessage() {
         return await this.errorMessage.getText();
-    }
-
-    /**
-     * Check if the menu breadcrumb is displayed
-     * @returns {Promise<boolean>} True if menu breadcrumb is visible, else false
-     */
-    async isMenuBreadcrumbDisplayed() {
-        return await this.menuBreadcrumb.isDisplayed();
     }
 
     /**

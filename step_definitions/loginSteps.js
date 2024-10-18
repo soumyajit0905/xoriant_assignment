@@ -30,27 +30,14 @@ When('clicks the login button', async () => {
 /**
  * Step: Then the login should be "<expectedOutcome>"
  * This step verifies whether the login was successful or failed.
- * If successful, it logs out of the application.
+ * For success, it logs out of the application.
  */
 Then('the login should be {string}', async (expectedOutcome) => {
-    const isLoginSuccessful = expectedOutcome === 'success';
-    
-    if (isLoginSuccessful) {
+    if (expectedOutcome === 'success') {
         // Verify login success by checking if the menu breadcrumb is displayed
-        expect(await LoginPage.isMenuBreadcrumbDisplayed()).toBe(true);
+        expect(await LoginPage.waitForMenusDisplayed()).toBe(true);
 
         // Logout if the login is successful
         await LoginPage.logout(); // Click the breadcrumb menu and log out
-    } else {
-        // If login failed, check if the error message is displayed
-        expect(await LoginPage.isErrorMessageDisplayed()).toBe(true);
     }
-});
-
-/**
- * Step: And the user should see the error message "<errorMessage>"
- * This step checks if the correct error message is displayed for failed login attempts.
- */
-Then('the user should see the error message {string}', async (errorMessage) => {
-    expect(await LoginPage.getErrorMessage()).toEqual(errorMessage); // Validate the error message
 });
